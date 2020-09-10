@@ -50,7 +50,7 @@ public:
         if(get_comb()=="High") Pair_TwoPairs(mas);
     };
 
-    void defgame(string c, ofstream& fout){ ///One row only for one game
+    void defgame(string c){ ///One row only for one game
         char mas[7][2]; ///Box/array to define combination for 1 player
 
         int k=10, l=0, t=0, r=0,tmp=0;
@@ -95,7 +95,7 @@ public:
             comb[t]=get_comb();
             t++;
         }
-        sort_players(notes,comb,hands,t,fout);
+        sort_players(notes,comb,hands,t);
     };
 
     int compare_comb(string x, string y){
@@ -150,7 +150,7 @@ public:
         }
     }
 
-    void sort_players(char notes[][4], string comb[],char hands[][4], int dim, ofstream &fout){
+    void sort_players(char notes[][4], string comb[],char hands[][4], int dim){
         bool flag=true;
         char  tmp1;
         int a;
@@ -242,7 +242,7 @@ public:
                 }
             }
         }
-        output_players(hands,notes,comb,dim,fout);
+        output_players(hands,notes,comb,dim);
     }
 
     void sort_me(char mas[][2]){
@@ -623,36 +623,31 @@ public:
         }
     }
 
-    void output_players(char hands[][4], char notes[][4],string comb[], int dim, ofstream &fout){
+    void output_players(char hands[][4], char notes[][4],string comb[], int dim){
         dim++;
         for(int i=0; i<dim; i++){
-            for(int j=0; j<4; j++) fout<<hands[i][j];
+            for(int j=0; j<4; j++) cout<<hands[i][j];
             if(i!=dim-1){
                 if(compare_comb(comb[i],comb[i+1])==0){
                     if(compare_similarcombination(notes[i][0],notes[i][1],notes[i][2],notes[i][3],notes[i+1][0],notes[i+1][1],notes[i+1][2],notes[i+1][3])==0){
-                        fout<<"=";
-                    }else fout<<' ';
-                }else fout<<' ';
-            }else fout<<' ';
+                        cout<<"=";
+                    }else cout<<' ';
+                }else cout<<' ';
+            }else cout<<' ';
         }
     }
 };
 int main(){
-    ifstream fin;
-    ofstream fout;
-    fout.open("output.out",ios::out);
-    fin.open("input.in",ios::in);
+
+
     Poker p;
-    if(fin.is_open()){
-        string c;
-        while(!fin.eof()){
-            getline(fin,c,'\n');
-            p.defgame(c, fout);
-            fout<<"\n";
-        }
-        fin.close();
+    string c;
+    while(getline(cin,c,'\n')){
+        p.defgame(c);
+        cout<<"\n";
     }
-    fout.close();
+
+
     system("pause");
     return 0;
 }
